@@ -1,21 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.h                                        :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/06 13:45:22 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/06 22:34:08 by itahri           ###   ########.fr       */
+/*   Created: 2024/05/06 22:21:50 by itahri            #+#    #+#             */
+/*   Updated: 2024/05/06 22:39:13 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_PRINTF_H
+#include "ft_printf.h"
 
-# define FT_PRINTF_H
-# include <stdarg.h>
-# include "libft/libft.h"
+char	*flags_len(const char *c, char sep)
+{
+	int		i;
+	char	*result;
 
-char	*flags_len(const char *c, char sep);
-
-#endif
+	// c++;
+	i = 0;
+	while(c[i] != sep && c[i])
+		i++;
+	result = malloc(sizeof(char) * i + 1);
+	if (!result)
+		return (NULL);
+	i = 0;
+	while(c[i] != sep && c[i])
+	{
+		result[i] = c[i];
+		i++;
+	}
+	result[i] = '\0';
+	return (result);
+}
