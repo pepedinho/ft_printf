@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
+/*   mandatory_func2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: itahri <itahri@contact.42.fr>              #+#  +:+       +#+        */
+/*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024-03-22 22:08:30 by itahri            #+#    #+#             */
-/*   Updated: 2024-03-22 22:08:30 by itahri           ###   ########fr        */
+/*   Created: 2024/05/07 15:34:31 by itahri            #+#    #+#             */
+/*   Updated: 2024/05/07 15:34:48 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_printf.h"
 
-size_t	ft_strlcpy(char *dst, char *src, size_t size)
+void	ft_putstr(const char *str)
 {
-	size_t	i;
+	int	i;
 
 	i = 0;
-	while (i < size - 1 && src[i])
+	while (str[i])
 	{
-		dst[i] = src[i];
+		write(1, &str[i], 1);
 		i++;
 	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
 }

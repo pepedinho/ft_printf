@@ -6,101 +6,13 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:59:19 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/06 23:14:59 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/08 17:09:12 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
-#include <stdio.h>
 
-
-static void	ft_putstr(const char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		write(1, &str[i], 1);
-		i++;
-	}
-}
-
-static void	ft_putnbr(int nbr)
-{
-	char	char_nbr;
-
-	if (nbr == -2147483648)
-	{
-		write(1, "-2147483648", 11);
-		return ; 
-	}
-
-	if (nbr < 0)
-	{
-		write(1, "-", 1);
-		nbr = -nbr;
-	}
-	if (nbr >= 10)
-		ft_putnbr(nbr / 10);
-	char_nbr = (nbr % 10) + '0';
-	write(1, &char_nbr, 1);
-}
-
-static void ft_putnbr_base(long long int nbr, char *base)
-{
-	char	char_nbr;
-	int		base_len;
-
-	base_len = ft_strlen(base);
-	if (nbr < 0)
-	{
-		write(1, "-", 1);
-	}
-	nbr = (unsigned long long)nbr;
-	if (nbr >= base_len)
-		ft_putnbr_base(nbr / base_len, base);
-	char_nbr = base[nbr % base_len];
-	write(1, &char_nbr, 1);
-}
-
-
-static void	print_mem(void *ptr)
-{
-	unsigned long long int	addres_num = (unsigned long long int)ptr; 
-	
-	write(1, "0x", 2);
-	ft_putnbr_base(addres_num, "0123456789abcdef");
-}
-
-
-static void	check_type(const char *c, va_list args)
-{
-	char	car;
-
-	c++;
-	if (*c == 'c')
-	{
-		car = va_arg(args, int);
-		write(1, &car, 1);
-	}
-	else if (*c == 's')
-		ft_putstr(va_arg(args, const char *));
-	else if (*c == 'd' || *c == 'i')
-		ft_putnbr(va_arg(args, int));
-	else if (*c == 'p')
-		print_mem(va_arg(args, void *));
-	else if (*c == 'u')
-		ft_putnbr_base(va_arg(args,unsigned int), "0123456789");
-	else if (*c == 'x')
-		ft_putnbr_base(va_arg(args, long long int), "0123456789abcdef");
-	else if (*c == 'X')
-		ft_putnbr_base(va_arg(args, long long int), "0123456789ABCDEF");
-	else if (*c == '%')
-		write(1, "%%", 1);
-}
-
-int	ft_prinft(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	va_list		args;
 	int			i;
@@ -110,27 +22,62 @@ int	ft_prinft(const char *format, ...)
 	while (format[i])
 	{
 		if (format[i] == '%')
-		{
-			check_type(&format[i], args);
-			i ++;
-		}
+			i += check_flags(&format[i], args);
 		else
 			write(1, &format[i], 1);
 		i++;
 	}
 	va_end(args);
-	return 1;
+	return (1);
 }
 
-int main()
-{
-	int e = 010;
-	int i = +214748364;
-	unsigned int j = -2147483648;
-	int hex = -2147483648;
-	char str[] = "je m'appel";
-	char car = 't';
-	printf("original :\nVariable 1 : %s\nVariable 2 : %d\nVariable 3 : %i\nVariable 4 : %c\nAddress de (i) : %p\nVariable 5 : %u\nVariable 6 : %x\nVariable 6 : %X%%\ntest : %04d", str, i, e, car, &i, j, hex, hex, 10);
-	ft_prinft("ft :\nVariable 1 : %s\nVariable 2 : %d\nVariable 3 : %i\nVariable 4 : %c\nAddress de (i) : %p\nVariable 5 : %u\nVariable 6 : %x\nVariable 6 : %X%%\n", str, i, e, car, &i, j, hex, hex);
-	return 0;
-}
+// int main()
+// {
+// 	int	e;
+// 	int	i;
+// 	unsigned int j;
+// 	int hex;
+// 	char str[] = "je m'appel";
+// 	char car;
+
+// 	e = 010;
+// 	i = +214748364;
+// 	j = 214748348;
+// 	hex = 214748364;
+// 	car = 't';
+// 	// Utilisation de printf
+// 	printf("original :\n");
+// 	printf("Variable 1 : %s\n", str);
+// 	printf("Variable 2 : %d\n", i);
+// 	printf("Variable 3 : %i\n", e);
+// 	printf("Variable 4 : %c\n", car);
+// 	printf("Variable 5 : %u\n", j);
+// 	printf("Variable 6 : %x\n", hex);
+// 	printf("Variable 6 Maj : %X%%\n", hex);
+// 	printf("Address de (i) : %p\n", &i);
+// 	printf("Bonus 0 (i) : %010i\n", 10);
+// 	printf("Bonus 0 (d) : %09d\n", -10);
+// 	printf("Bonus 0 (u) : %010u\n", j);
+// 	printf("Bonus 0 (x) : %010x\n", hex);
+// 	printf("Bonus 0 (X) : %010X\n", hex);
+// 	printf("Bonus +     : %+d\n", 1000000);
+
+// 	// Utilisation de ft_printf
+// 	ft_printf("ft :\n");
+// 	ft_printf("Variable 1 : %s\n", str);
+// 	ft_printf("Variable 2 : %d\n", i);
+// 	ft_printf("Variable 3 : %i\n", e);
+// 	ft_printf("Variable 4 : %c\n", car);
+// 	ft_printf("Variable 5 : %u\n", j);
+// 	ft_printf("Variable 6 : %x\n", hex);
+// 	ft_printf("Variable 6 Maj : %X%%\n", hex);
+// 	ft_printf("Address de (i) : %p\n", &i);
+// 	ft_printf("Bonus 0 (i) : %010i\n", 10);
+// 	ft_printf("Bonus 0 (d) : %09d\n", -10);
+// 	ft_printf("Bonus 0 (u) : %010u\n", j);
+// 	ft_printf("Bonus 0 (x) : %010x\n", hex);
+// 	ft_printf("Bonus 0 (X) : %010X\n", hex);
+// 	ft_printf("Bonus +     : %+d\n", 1000000);
+
+// 	return 0;
+// }
