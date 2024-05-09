@@ -6,11 +6,11 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:21:50 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/08 17:00:19 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:49:17 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "includes/ft_printf.h"
 
 t_format	*flags_len(const char *c, char *sep)
 {
@@ -40,13 +40,13 @@ t_format	*flags_len(const char *c, char *sep)
 	return (result);
 }
 
-int	support_zero_format(int arg, char *it_nbr)
+int	support_zero_format(int arg, t_format *format)
 {
 	int	i;
 	int	ite;
 
 	i = 0;
-	ite = ft_atoi(it_nbr);
+	ite = ft_atoi(format->str);
 	if (arg < 0)
 		write(1, "-", 1);
 	while (i < ite - dec_len_all(arg))
@@ -57,6 +57,7 @@ int	support_zero_format(int arg, char *it_nbr)
 	if (arg < 0)
 		arg = -arg;
 	ft_putnbr(arg);
+	free_struct(format);
 	return (0);
 }
 
@@ -72,18 +73,18 @@ int	zero_format(const char *c, va_list args)
 	{
 		arg = va_arg(args, long long int);
 		if (format->formater == 'x')
-			return (zero_format_hex(arg, 1, format->str), decale);
+			return (zero_format_hex(arg, 1, format), decale);
 		else
-			return (zero_format_hex(arg, 2, format->str), decale);
+			return (zero_format_hex(arg, 2, format), decale);
 	}
 	else if (format->formater == 'u')
 	{
 		arg = va_arg(args, unsigned int);
-		return (zero_format_unsigned(arg, format->str), decale);
+		return (zero_format_unsigned(arg, format), decale);
 	}
 	else
 	{
 		arg = va_arg(args, int);
-		return (support_zero_format(arg, format->str) + decale);
+		return (support_zero_format(arg, format) + decale);
 	}
 }

@@ -6,19 +6,19 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:31:29 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/08 17:02:47 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:49:23 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "includes/ft_printf.h"
 
-int	zero_format_hex(long long int arg, int cas, char *it_nbr)
+int	zero_format_hex(long long int arg, int cas, t_format *format)
 {
 	int	i;
 	int	ite;
 
 	i = 0;
-	ite = ft_atoi(it_nbr);
+	ite = ft_atoi(format->str);
 	while (i < ite - hexa_len(arg))
 	{
 		write(1, "0", 1);
@@ -28,6 +28,7 @@ int	zero_format_hex(long long int arg, int cas, char *it_nbr)
 		ft_putnbr_base(arg, "0123456789abcdef");
 	else
 		ft_putnbr_base(arg, "0123456789ABCDEF");
+	free_struct(format);
 	return (1);
 }
 
@@ -69,12 +70,12 @@ void	free_struct(t_format *format)
 	free(format);
 }
 
-int	zero_format_unsigned(unsigned int arg, char *it_nbr)
+int	zero_format_unsigned(unsigned int arg, t_format *format)
 {
 	int	i;
 	int	ite;
 
-	ite = ft_atoi(it_nbr);
+	ite = ft_atoi(format->str);
 	i = 0;
 	while (i < ite - dec_len(arg))
 	{
@@ -82,5 +83,6 @@ int	zero_format_unsigned(unsigned int arg, char *it_nbr)
 		i++;
 	}
 	ft_putnbr_base(arg, "0123456789");
+	free_struct(format);
 	return (1);
 }

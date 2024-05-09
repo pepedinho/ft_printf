@@ -6,11 +6,11 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:31:44 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/07 17:59:01 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/09 17:48:56 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "includes/ft_printf.h"
 
 void	ft_putnbr(int nbr)
 {
@@ -90,6 +90,14 @@ int	check_flags(const char *c, va_list args)
 		return (zero_format(c, args));
 	else if (*c == '+')
 		return (plus_format(c, args));
+	else if (*c == '#')
+		return (hasht_format(c, args));
+	else if (*c == ' ')
+		return (space_format(c, args));
+	else if (check_digit(c, "0123456789"))
+		return(default_format(c, args));
+	else if (*c == '-')
+		return(min_format(c, args));
 	else
 	{
 		check_type(&c[0], args);
