@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:45:22 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:52:31 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:12:59 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_format
 	char	formater;
 }			t_format;
 
-int	ft_printf(const char *format, ...);
+int			ft_printf(const char *format, ...);
 
 t_format	*flags_len(const char *c, char *sep);
 

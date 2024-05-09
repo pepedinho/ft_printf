@@ -6,12 +6,11 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:01:59 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:47:56 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:08:33 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_printf.h"
-
 
 static t_format	*flags_len_default(const char *c, char *sep)
 {
@@ -40,8 +39,7 @@ static t_format	*flags_len_default(const char *c, char *sep)
 	return (result);
 }
 
-
-static void	check_type_def(const char c, va_list args,int ite)
+static void	check_type_def(const char c, va_list args, int ite)
 {
 	char	car;
 
@@ -66,7 +64,6 @@ static void	check_type_def(const char c, va_list args,int ite)
 		write(1, "%%", 1);
 }
 
-
 int	default_format(const char *c, va_list args)
 {
 	t_format	*format;
@@ -75,10 +72,10 @@ int	default_format(const char *c, va_list args)
 
 	format = flags_len_default(c, "sdpuixX");
 	if (!format)
-		return(0);
+		return (0);
 	ite = ft_atoi(format->str);
 	check_type_def(format->formater, args, ite);
 	len = ft_strlen(format->str);
 	free_struct(format);
-	return(len + 1);
+	return (len + 1);
 }

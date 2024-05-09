@@ -6,17 +6,17 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:07:35 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:48:33 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/09 18:09:25 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_printf.h"
 
-void str_format(va_list args, int ite)
+void	str_format(va_list args, int ite)
 {
 	const char	*str;
-	int		i;
-	int		len;
+	int			i;
+	int			len;
 
 	str = va_arg(args, const char *);
 	i = 0;
@@ -42,7 +42,7 @@ void	int_format(va_list args, int ite)
 	if (!str)
 		return ;
 	len = ft_strlen(str);
-	while(i < ite - len)
+	while (i < ite - len)
 	{
 		write(1, " ", 1);
 		i++;
@@ -53,7 +53,7 @@ void	int_format(va_list args, int ite)
 
 void	mem_format(va_list args, int ite)
 {
-	int 					i;
+	int						i;
 	int						len;
 	void					*ptr;
 	unsigned long long int	nbr;

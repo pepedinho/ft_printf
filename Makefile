@@ -6,7 +6,7 @@
 #    By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 17:50:54 by itahri            #+#    #+#              #
-#    Updated: 2024/05/09 18:05:05 by itahri           ###   ########.fr        #
+#    Updated: 2024/05/09 18:37:25 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ $(NAME): $(OBJS)
 	ar crs $(NAME) $(OBJS)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -include ./includes/ft_printf.h $< -o $@
+	$(CC) $(CFLAGS) -c -I ./includes $< -o $@
 
 bonus : all
 
