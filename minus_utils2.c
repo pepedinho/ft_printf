@@ -6,18 +6,17 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:06:35 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:49:11 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/10 14:05:35 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "includes/ft_printf.h"
 
-void min_str_format(va_list args, int ite)
+void	min_str_format(va_list args, int ite)
 {
 	const char	*str;
-	int		i;
-	int		len;
+	int			i;
+	int			len;
 
 	str = va_arg(args, const char *);
 	i = 0;
@@ -44,7 +43,7 @@ void	min_int_format(va_list args, int ite)
 		return ;
 	len = ft_strlen(str);
 	ft_putnbr(nbr);
-	while(i < ite - len)
+	while (i < ite - len)
 	{
 		write(1, " ", 1);
 		i++;
@@ -54,7 +53,7 @@ void	min_int_format(va_list args, int ite)
 
 void	min_mem_format(va_list args, int ite)
 {
-	int 					i;
+	int						i;
 	int						len;
 	void					*ptr;
 	unsigned long long int	nbr;

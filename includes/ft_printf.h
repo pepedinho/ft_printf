@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:45:22 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 18:12:59 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/10 14:11:15 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int			plus_format(const char *c, va_list args);
 int			hasht_format(const char *c, va_list args);
 int			space_format(const char *c, va_list args);
 
-
 void		free_struct(t_format *format);
 
 int			hexa_len(long long int nbr);
@@ -53,7 +52,7 @@ void		ft_putstr(const char *str);
 
 int			default_format(const char *c, va_list args);
 
-void 		str_format(va_list args, int ite);
+void		str_format(va_list args, int ite);
 void		int_format(va_list args, int ite);
 void		mem_format(va_list args, int ite);
 void		unsigned_format(va_list args, int ite);
@@ -61,7 +60,7 @@ void		hex_format(va_list args, int ite, int cas);
 
 int			min_format(const char *c, va_list args);
 
-void 		min_str_format(va_list args, int ite);
+void		min_str_format(va_list args, int ite);
 void		min_int_format(va_list args, int ite);
 void		min_mem_format(va_list args, int ite);
 void		min_unsigned_format(va_list args, int ite);

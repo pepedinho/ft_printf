@@ -6,7 +6,7 @@
 #    By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 17:50:54 by itahri            #+#    #+#              #
-#    Updated: 2024/05/09 18:37:25 by itahri           ###   ########.fr        #
+#    Updated: 2024/05/10 14:13:03 by itahri           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ OBJS = $(SRCS:.c=.o)
 
 NAME = libftprintf.a
 
-all = $(NAME)
+all : $(NAME)
 
 $(NAME): $(OBJS)
 	ar crs $(NAME) $(OBJS)

@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:45:31 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:49:29 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/10 14:06:25 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	hasht_format(const char *c, va_list args)
 	{
 		write(1, "0X", 2);
 		ft_putnbr_base(va_arg(args, long long int), "0123456789ABCDEF");
-
 	}
 	return (2);
 }
@@ -43,12 +42,12 @@ int	space_format(const char *c, va_list args)
 		{
 			write(1, " ", 1);
 			ft_putnbr(arg);
-		}	
+		}
 	}
 	return (2);
 }
 
-int check_digit(const char *c, char *digit)
+int	check_digit(const char *c, char *digit)
 {
 	int	i;
 

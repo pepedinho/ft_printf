@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:04:20 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:49:05 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/10 14:04:14 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ static t_format	*flags_len_min(const char *c, char *sep)
 	return (result);
 }
 
-
-static void	check_type_min(const char c, va_list args,int ite)
+static void	check_type_min(const char c, va_list args, int ite)
 {
 	char	car;
 
@@ -65,7 +64,6 @@ static void	check_type_min(const char c, va_list args,int ite)
 		write(1, "%%", 1);
 }
 
-
 int	min_format(const char *c, va_list args)
 {
 	t_format	*format;
@@ -78,5 +76,5 @@ int	min_format(const char *c, va_list args)
 	check_type_min(format->formater, args, ite);
 	len = ft_strlen(format->str);
 	free_struct(format);
-	return(len + 2);
+	return (len + 2);
 }
