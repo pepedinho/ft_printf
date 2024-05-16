@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 17:04:20 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/10 14:04:14 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/11 15:50:24 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,42 +39,43 @@ static t_format	*flags_len_min(const char *c, char *sep)
 	return (result);
 }
 
-static void	check_type_min(const char c, va_list args, int ite)
+static t_len	*check_type_min(const char c, va_list args, int ite, int len)
 {
-	char	car;
-
 	if (c == 'c')
-	{
-		car = va_arg(args, int);
-		write(1, &car, 1);
-	}
+		return (min_car_format(args, ite, len));
 	else if (c == 's')
-		min_str_format(args, ite);
+		return (min_str_format(args, ite, len));
 	else if (c == 'd' || c == 'i')
-		min_int_format(args, ite);
+		return (min_int_format(args, ite, len));
 	else if (c == 'p')
-		min_mem_format(args, ite);
+		return (min_mem_format(args, ite, len));
 	else if (c == 'u')
-		min_unsigned_format(args, ite);
+		return (min_unsigned_format(args, ite, len));
 	else if (c == 'x')
-		min_hex_format(args, ite, 1);
+		return (min_hex_format(args, ite, 1, len));
 	else if (c == 'X')
-		min_hex_format(args, ite, 2);
+		return (min_hex_format(args, ite, 2, len));
 	else if (c == '%')
-		write(1, "%%", 1);
+		return (min_per_format(ite, len));
+	return (NULL);
 }
 
-int	min_format(const char *c, va_list args)
+t_len	*min_format(const char *c, va_list args)
 {
 	t_format	*format;
+	t_len		*result;
 	int			ite;
 	int			len;
 
 	c++;
 	format = flags_len_min(c, "sdpuixX");
+	if (!format)
+		return (NULL);
 	ite = ft_atoi(format->str);
-	check_type_min(format->formater, args, ite);
 	len = ft_strlen(format->str);
+	result = check_type_min(format->formater, args, ite, len + 2);
+	if (!result)
+		return (NULL);
 	free_struct(format);
-	return (len + 2);
+	return (result);
 }

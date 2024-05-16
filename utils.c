@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 22:21:50 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:49:17 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/12 13:35:05 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,16 @@ t_format	*flags_len(const char *c, char *sep)
 	return (result);
 }
 
-int	support_zero_format(int arg, t_format *format)
+t_len	*support_zero_format(int arg, t_format *format, int decale)
 {
-	int	i;
-	int	ite;
+	int		i;
+	int		ite;
+	char	*str;
+	t_len	*result;
 
+	result = malloc(sizeof(t_len));
+	if (!result)
+		return (NULL);
 	i = 0;
 	ite = ft_atoi(format->str);
 	if (arg < 0)
@@ -57,11 +62,14 @@ int	support_zero_format(int arg, t_format *format)
 	if (arg < 0)
 		arg = -arg;
 	ft_putnbr(arg);
-	free_struct(format);
-	return (0);
+	str = ft_itoa(arg);
+	result->i = decale;
+	result->arg_len = ft_strlen(str);
+	free(str);
+	return (free_struct(format), result);
 }
 
-int	zero_format(const char *c, va_list args)
+t_len	*zero_format(const char *c, va_list args)
 {
 	t_format		*format;
 	int				decale;
@@ -73,18 +81,18 @@ int	zero_format(const char *c, va_list args)
 	{
 		arg = va_arg(args, long long int);
 		if (format->formater == 'x')
-			return (zero_format_hex(arg, 1, format), decale);
+			return (zero_hex(arg, 1, format, decale));
 		else
-			return (zero_format_hex(arg, 2, format), decale);
+			return (zero_hex(arg, 2, format, decale));
 	}
 	else if (format->formater == 'u')
 	{
 		arg = va_arg(args, unsigned int);
-		return (zero_format_unsigned(arg, format), decale);
+		return (zero_format_uns(arg, format, decale));
 	}
 	else
 	{
 		arg = va_arg(args, int);
-		return (support_zero_format(arg, format) + decale);
+		return (support_zero_format(arg, format, decale));
 	}
 }

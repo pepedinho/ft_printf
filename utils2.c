@@ -6,17 +6,21 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 17:31:29 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:49:23 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/12 13:35:11 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_printf.h"
 
-int	zero_format_hex(long long int arg, int cas, t_format *format)
+t_len	*zero_hex(long long int arg, int cas, t_format *format, int decale)
 {
-	int	i;
-	int	ite;
+	int		i;
+	int		ite;
+	t_len	*result;
 
+	result = malloc(sizeof(t_len));
+	if (!result)
+		return (NULL);
 	i = 0;
 	ite = ft_atoi(format->str);
 	while (i < ite - hexa_len(arg))
@@ -29,7 +33,9 @@ int	zero_format_hex(long long int arg, int cas, t_format *format)
 	else
 		ft_putnbr_base(arg, "0123456789ABCDEF");
 	free_struct(format);
-	return (1);
+	result->i = decale;
+	result->arg_len = hexa_len(arg);
+	return (result);
 }
 
 int	check_sep(char c, char *sep)
@@ -46,11 +52,15 @@ int	check_sep(char c, char *sep)
 	return (0);
 }
 
-int	plus_format(const char *c, va_list args)
+t_len	*plus_format(const char *c, va_list args)
 {
-	int	decal;
-	int	arg;
+	int		decal;
+	int		arg;
+	t_len	*result;
 
+	result = malloc(sizeof(t_len));
+	if (!result)
+		return (NULL);
 	c++;
 	decal = 1;
 	if (c[0] == 'd' || c[0] == 'i')
@@ -61,7 +71,9 @@ int	plus_format(const char *c, va_list args)
 		decal++;
 		ft_putnbr(arg);
 	}
-	return (decal);
+	result->i = decal;
+	result->arg_len = dec_len(arg);
+	return (result);
 }
 
 void	free_struct(t_format *format)
@@ -70,19 +82,27 @@ void	free_struct(t_format *format)
 	free(format);
 }
 
-int	zero_format_unsigned(unsigned int arg, t_format *format)
+t_len	*zero_format_uns(unsigned int arg, t_format *format, int decale)
 {
-	int	i;
-	int	ite;
+	int		i;
+	int		ite;
+	int		len;
+	t_len	*result;
 
+	result = malloc(sizeof(t_len));
 	ite = ft_atoi(format->str);
 	i = 0;
-	while (i < ite - dec_len(arg))
+	len = dec_len(arg);
+	while (i < ite - len)
 	{
 		write(1, "0", 1);
 		i++;
 	}
 	ft_putnbr_base(arg, "0123456789");
+	if (ite > len)
+		len = ite;
+	result->arg_len = ite;
+	result->i = decale;
 	free_struct(format);
-	return (1);
+	return (result);
 }

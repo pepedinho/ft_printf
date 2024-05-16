@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 15:31:44 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/10 14:03:40 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/11 20:56:11 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,32 +58,28 @@ void	print_mem(void *ptr)
 	ft_putnbr_base(addres_num, "0123456789abcdef");
 }
 
-void	check_type(const char *c, va_list args)
+t_len	*check_type(const char *c, va_list args)
 {
-	char	car;
-
 	if (*c == 'c')
-	{
-		car = va_arg(args, int);
-		write(1, &car, 1);
-	}
+		return (car_pr(args));
 	else if (*c == 's')
-		ft_putstr(va_arg(args, const char *));
+		return (str_pr(args));
 	else if (*c == 'd' || *c == 'i')
-		ft_putnbr(va_arg(args, int));
+		return (int_pr(args));
 	else if (*c == 'p')
-		print_mem(va_arg(args, void *));
+		return (mem_pr(args));
 	else if (*c == 'u')
-		ft_putnbr_base(va_arg(args, unsigned int), "0123456789");
+		return (uns_pr(args));
 	else if (*c == 'x')
-		ft_putnbr_base(va_arg(args, long long int), "0123456789abcdef");
+		return (hexl_pr(args, 1));
 	else if (*c == 'X')
-		ft_putnbr_base(va_arg(args, long long int), "0123456789ABCDEF");
+		return (hexl_pr(args, 2));
 	else if (*c == '%')
-		write(1, "%%", 1);
+		return (per_pr());
+	return (NULL);
 }
 
-int	check_flags(const char *c, va_list args)
+t_len	*check_flags(const char *c, va_list args)
 {
 	c++;
 	if (*c == '0')
@@ -96,11 +92,10 @@ int	check_flags(const char *c, va_list args)
 		return (space_format(c, args));
 	else if (check_digit(c, "0123456789"))
 		return (default_format(c, args));
+	else if (*c == '.')
+		return (strict_format(c, args));
 	else if (*c == '-')
 		return (min_format(c, args));
 	else
-	{
-		check_type(&c[0], args);
-		return (1);
-	}
+		return (check_type(&c[0], args));
 }

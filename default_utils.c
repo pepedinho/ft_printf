@@ -6,13 +6,13 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 16:01:59 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 18:08:33 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/12 11:26:33 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_printf.h"
 
-static t_format	*flags_len_default(const char *c, char *sep)
+t_format	*flags_len_default(const char *c, char *sep)
 {
 	int			i;
 	char		*str;
@@ -35,47 +35,48 @@ static t_format	*flags_len_default(const char *c, char *sep)
 		i++;
 	}
 	str[i] = '\0';
+	if (i == 0)
+		str[0] = '0';
 	result->str = str;
 	return (result);
 }
 
-static void	check_type_def(const char c, va_list args, int ite)
+static t_len	*check_type_def(const char c, va_list args, int ite, int len)
 {
-	char	car;
-
 	if (c == 'c')
-	{
-		car = va_arg(args, int);
-		write(1, &car, 1);
-	}
+		return (car_format(args, ite, len));
 	else if (c == 's')
-		str_format(args, ite);
+		return (str_format(args, ite, len));
 	else if (c == 'd' || c == 'i')
-		int_format(args, ite);
+		return (int_format(args, ite, len));
 	else if (c == 'p')
-		mem_format(args, ite);
+		return (mem_format(args, ite, len));
 	else if (c == 'u')
-		unsigned_format(args, ite);
+		return (unsigned_format(args, ite, len));
 	else if (c == 'x')
-		hex_format(args, ite, 1);
+		return (hex_format(args, ite, 1, len));
 	else if (c == 'X')
-		hex_format(args, ite, 2);
+		return (hex_format(args, ite, 2, len));
 	else if (c == '%')
-		write(1, "%%", 1);
+		return (per_format(ite, len));
+	return (NULL);
 }
 
-int	default_format(const char *c, va_list args)
+t_len	*default_format(const char *c, va_list args)
 {
 	t_format	*format;
+	t_len		*result;
 	int			ite;
 	int			len;
 
-	format = flags_len_default(c, "sdpuixX");
+	format = flags_len_default(c, "csdpuixX");
 	if (!format)
-		return (0);
+		return (NULL);
 	ite = ft_atoi(format->str);
-	check_type_def(format->formater, args, ite);
 	len = ft_strlen(format->str);
+	result = check_type_def(format->formater, args, ite, len);
+	if (!result)
+		return (NULL);
 	free_struct(format);
-	return (len + 1);
+	return (result);
 }

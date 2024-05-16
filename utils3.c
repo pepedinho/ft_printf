@@ -6,32 +6,45 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/09 14:45:31 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/10 14:06:25 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/12 13:46:37 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "includes/ft_printf.h"
 
-int	hasht_format(const char *c, va_list args)
+t_len	*hasht_format(const char *c, va_list args)
 {
+	long long int	arg;
+	t_len			*result;
+
+	result = malloc(sizeof(t_len));
+	if (!result)
+		return (NULL);
+	arg = va_arg(args, long long int);
 	c++;
 	if (*c == 'x')
 	{
 		write(1, "0x", 2);
-		ft_putnbr_base(va_arg(args, long long int), "0123456789abcdef");
+		ft_putnbr_base(arg, "0123456789abcdef");
 	}
 	else if (*c == 'X')
 	{
 		write(1, "0X", 2);
-		ft_putnbr_base(va_arg(args, long long int), "0123456789ABCDEF");
+		ft_putnbr_base(arg, "0123456789ABCDEF");
 	}
-	return (2);
+	result->i = 2;
+	result->arg_len = hexa_len(arg);
+	return (result);
 }
 
-int	space_format(const char *c, va_list args)
+t_len	*space_format(const char *c, va_list args)
 {
-	int	arg;
+	t_len	*result;
+	int		arg;
 
+	result = malloc(sizeof(t_len));
+	if (!result)
+		return (NULL);
 	c++;
 	if (*c == 'd' || *c == 'i')
 	{
@@ -43,8 +56,10 @@ int	space_format(const char *c, va_list args)
 			write(1, " ", 1);
 			ft_putnbr(arg);
 		}
+		result->arg_len = dec_len(arg);
 	}
-	return (2);
+	result->i = 2;
+	return (result);
 }
 
 int	check_digit(const char *c, char *digit)
@@ -59,4 +74,19 @@ int	check_digit(const char *c, char *digit)
 		i++;
 	}
 	return (0);
+}
+
+void	job(int *i, int *count, t_len *len)
+{
+	*i += len->i;
+	*count += len->arg_len;
+	free(len);
+}
+
+int	max(int a, int b)
+{
+	if (a > b)
+		return (a);
+	else
+		return (b);
 }

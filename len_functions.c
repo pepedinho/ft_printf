@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/08 16:17:59 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 17:48:45 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/11 16:49:03 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	hexa_len(long long int nbr)
 
 	temp = nbr;
 	len = 0;
+	if (temp == 0)
+		return (1);
 	while (temp != 0)
 	{
 		temp = temp / 16;
@@ -34,6 +36,8 @@ int	dec_len(unsigned int nbr)
 
 	temp = nbr;
 	len = 0;
+	if (nbr == 0)
+		return (1);
 	while (temp != 0)
 	{
 		temp = temp / 10;
@@ -49,6 +53,8 @@ int	dec_len_all(int nbr)
 
 	temp = nbr;
 	len = 0;
+	if (temp == 0)
+		return (1);
 	if (temp == -2147483648)
 		return (11);
 	if (temp < 0)

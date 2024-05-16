@@ -6,7 +6,7 @@
 /*   By: itahri <itahri@contact.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 13:59:19 by itahri            #+#    #+#             */
-/*   Updated: 2024/05/09 18:09:51 by itahri           ###   ########.fr       */
+/*   Updated: 2024/05/12 12:21:40 by itahri           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,21 +15,36 @@
 int	ft_printf(const char *format, ...)
 {
 	va_list		args;
+	t_len		*len;
+	int			count;
 	int			i;
 
 	i = 0;
+	count = 0;
 	va_start(args, format);
 	while (format[i])
 	{
 		if (format[i] == '%')
-			i += check_flags(&format[i], args);
+		{
+			len = check_flags(&format[i++], args);
+			if (!len)
+				return (-1);
+			job(&i, &count, len);
+		}
 		else
-			write(1, &format[i], 1);
-		i++;
+		{
+			write(1, &format[i++], 1);
+			count++;
+		}
 	}
 	va_end(args);
-	return (1);
+	return (count);
 }
+
+// int main()
+// {
+// 	ft_printf("[%.0s]", "hi there");
+// }
 
 // int main()
 // {
